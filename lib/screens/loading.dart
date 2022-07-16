@@ -18,15 +18,15 @@ class _LoadingState extends State<Loading> {
     // TODO: implement initState
     super.initState();
     getNews();
-    getNaver();
+    // getNaver();
   }
 
   Future<void> getNews() async {
     GetNews getNews = GetNews(
-        'https://newsapi.org/v2/top-headlines?country=kr&apiKey=3e3d6c4106c84f27be6d9578970fc4e8');
+        'https://newsapi.org/v2/top-headlines?country=kr&apiKey=3e3d6c4106c84f27be6d9578970fc4e8',
+        'https://newsapi.org/v2/top-headlines?country=kr&category=business&apiKey=3e3d6c4106c84f27be6d9578970fc4e8');
 
     var newsData = await getNews.getNewsData();
-    // print(newsData);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return NewsMainScreen(parseNewsData: newsData);
