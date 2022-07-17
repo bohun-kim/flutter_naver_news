@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_naver_news/data/getnews.dart';
-import '../model/menu.dart';
+import 'package:dio/dio.dart';
 
 class NewsMainScreen extends StatefulWidget {
   final dynamic parseNewsData;
 
-  const NewsMainScreen({Key? key, this.parseNewsData}) : super(key: key);
+  const NewsMainScreen({Key? key, required this.parseNewsData})
+      : super(key: key);
 
   @override
   State<NewsMainScreen> createState() => _NewsMainScreenState();
@@ -16,24 +16,25 @@ class _NewsMainScreenState extends State<NewsMainScreen> {
   String? title2;
   String? img2;
 
+  final double objInterval = 10;
+
+  static List<String> menu = [
+    '뉴스홈', '기업'
+    // , '연예', '건강', '과학', '스포츠', '기술'
+  ];
+  static List<Response<dynamic>> newsTitle = [];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    updateData(widget.parseNewsData);
+    getNewsData(widget.parseNewsData);
   }
 
-  void updateData(dynamic parseNewsData) {
-    title2 = parseNewsData['articles'][0]['title'];
-    img2 = parseNewsData['articles'][0]['urlToImage'];
+  void getNewsData(parseNewsData) {
+    newsTitle = parseNewsData;
+    print(parseNewsData[0]);
   }
-
-  final double objInterval = 10;
-
-  static List<String> menu = ['뉴스홈', '기업', '연예', '건강', '과학', '스포츠', '기술'];
-
-  final List<Menu> menuData =
-      List.generate(menu.length, (index) => Menu(menu[index]));
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +55,13 @@ class _NewsMainScreenState extends State<NewsMainScreen> {
               )
             ],
             bottom: TabBar(
-                isScrollable: true,
-                tabs: List<Widget>.generate(menu.length, (int index) {
-                  return Tab(
-                    child: Text(menu[index]),
-                  );
-                }),
-                onTap: (int index) async{
-                },
+              isScrollable: true,
+              tabs: List<Widget>.generate(menu.length, (int index) {
+                return Tab(
+                  child: Text(menu[index]),
+                );
+              }),
+              onTap: (int index) async {},
             ),
             elevation: 0,
           ),
@@ -69,7 +69,7 @@ class _NewsMainScreenState extends State<NewsMainScreen> {
           body: Column(children: [
             Expanded(
               child: TabBarView(
-                children: List<Widget>.generate(menu.length, (int index) {
+                children: List<Widget>.generate(newsTitle.length, (int index) {
                   return Container(
                     child: Column(
                       children: [
@@ -90,13 +90,21 @@ class _NewsMainScreenState extends State<NewsMainScreen> {
                                 children: [
                                   ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      child: Image.network('$img2')),
+                                      child: Image.network(
+                                        newsTitle[index]
+                                            .data['articles'][0]['urlToImage']
+                                            .toString(),
+                                      ))
+                                  // Image.network('$img2')),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 10,
+                              SizedBox(
+                                height: objInterval,
                               ),
-                              Text('$title2',
+                              Text(
+                                  newsTitle[index]
+                                      .data['articles'][0]['title']
+                                      .toString(),
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       height: 1.5,

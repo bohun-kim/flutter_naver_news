@@ -22,11 +22,18 @@ class _LoadingState extends State<Loading> {
   }
 
   Future<void> getNews() async {
+    // url get 요청
     GetNews getNews = GetNews(
-        'https://newsapi.org/v2/top-headlines?country=kr&apiKey=3e3d6c4106c84f27be6d9578970fc4e8',
-        'https://newsapi.org/v2/top-headlines?country=kr&category=business&apiKey=3e3d6c4106c84f27be6d9578970fc4e8');
+      'https://newsapi.org/v2/top-headlines?country=kr&apiKey=74ad5f4d1a52466cbdbc4486848e5a36',
+      'https://newsapi.org/v2/top-headlines?country=kr&category=business&apiKey=74ad5f4d1a52466cbdbc4486848e5a36',
+      'https://newsapi.org/v2/top-headlines?country=kr&category=entertainment&apiKey=3e3d6c4106c84f27be6d9578970fc4e8',
+      'https://newsapi.org/v2/top-headlines?country=kr&category=health&apiKey=3e3d6c4106c84f27be6d9578970fc4e8',
+      'https://newsapi.org/v2/top-headlines?country=kr&category=science&apiKey=3e3d6c4106c84f27be6d9578970fc4e8',
+      'https://newsapi.org/v2/top-headlines?country=kr&category=sports&apiKey=3e3d6c4106c84f27be6d9578970fc4e8',
+      'https://newsapi.org/v2/top-headlines?country=kr&category=technology&apiKey=3e3d6c4106c84f27be6d9578970fc4e8',
+    );
 
-    var newsData = await getNews.getNewsData();
+    var newsData = await getNews.requestUrl();
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return NewsMainScreen(parseNewsData: newsData);
@@ -44,7 +51,6 @@ class _LoadingState extends State<Loading> {
 
     String jsonData = response.body;
     var parsingData = jsonDecode(jsonData);
-    // print(parsingData);
   }
 
   @override
