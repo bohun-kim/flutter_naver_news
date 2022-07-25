@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_news/screens/screen/newshome_articles/newshome_articles.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher_string.dart';
 
 class NewsHome extends StatefulWidget {
   const NewsHome({Key? key}) : super(key: key);
@@ -26,28 +26,41 @@ class _NewsHomeState extends State<NewsHome> {
 
     for (var jsonArticle in jsonArray) {
       NewsHomeArticles newsHomeArticles = NewsHomeArticles(
-          urlToImage: jsonArticle['urlToImage'],
-          title: jsonArticle['title'],
-          author: jsonArticle['description']);
+        title: jsonArticle['title'],
+        author: jsonArticle['author'],
+        urlToImage: jsonArticle['urlToImage'],
+        url: jsonArticle['url'],
+        description: jsonArticle['description'],
+      );
 
       newsArticle.add(newsHomeArticles);
     }
     return newsArticle;
   }
 
-  showPopup(context, title, author, urlToImage) {
+  // 리스트 카드 클릭시 팝업 창
+  showPopup(context, title, author, urlToImage, description, url) {
     showDialog(
         context: context,
         builder: (context) {
           return Dialog(
             child: Container(
-              width: 300,
-              height: 300,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.white24
+                  color: Colors.white24),
+              child: Column(
+                children: [
+                  Text(title),
+                  Text(urlToImage),
+                  Text(description),
+                  Text(author ?? '작가 없음'),
+                  ElevatedButton(
+                      onPressed: () async {
+                        launchUrlString('$url');
+                      },
+                      child: const Text('link'))
+                ],
               ),
-              child: Text(title),
             ),
           );
         });
@@ -76,8 +89,15 @@ class _NewsHomeState extends State<NewsHome> {
                 itemBuilder: (context, index) {
                   NewsHomeArticles article = newsArticles[index];
                   return GestureDetector(
-                    onTap: () => showPopup(context, article.title,
-                        article.author, article.urlToImage),
+                    // 리스트 카드 클릭 시 데이터 api 데이터 전달
+                    onTap: () => showPopup(
+                        context,
+                        article.title,
+                        article.author,
+                        article.urlToImage,
+                        article.description,
+                        article.url),
+                    // 기사 하나의 컨테이너
                     child: Container(
                       margin:
                           const EdgeInsets.only(top: 20, left: 10, right: 10),
@@ -96,6 +116,7 @@ class _NewsHomeState extends State<NewsHome> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // 기사 사진
                                   Stack(
                                     children: [
                                       ClipRRect(
@@ -108,6 +129,7 @@ class _NewsHomeState extends State<NewsHome> {
                                   const SizedBox(
                                     height: 10,
                                   ),
+                                  // 기사 제목
                                   Text(article.title,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w700,
