@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_news/screens/screen/newshome_articles/newshome_articles.dart';
+import 'package:flutter_naver_news/screens/screen/newshome/newshome_articles.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -28,6 +28,7 @@ class _NewsHomeState extends State<NewsHome> {
       NewsHomeArticles newsHomeArticles = NewsHomeArticles(
         title: jsonArticle['title'],
         author: jsonArticle['author'],
+        publishedAt: jsonArticle['publishedAt'],
         urlToImage: jsonArticle['urlToImage'],
         url: jsonArticle['url'],
         description: jsonArticle['description'],
@@ -39,27 +40,90 @@ class _NewsHomeState extends State<NewsHome> {
   }
 
   // 리스트 카드 클릭시 팝업 창
-  showPopup(context, title, author, urlToImage, description, url) {
+  showPopup(context, title, author, publishedAt, urlToImage, description, url) {
     showDialog(
         context: context,
         builder: (context) {
-          return Dialog(
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white24),
-              child: Column(
-                children: [
-                  Text(title),
-                  Text(urlToImage),
-                  Text(description),
-                  Text(author ?? '작가 없음'),
-                  ElevatedButton(
-                      onPressed: () async {
-                        launchUrlString('$url');
-                      },
-                      child: const Text('link'))
-                ],
+          return SingleChildScrollView(
+            child: Dialog(
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    //뉴스 제목,작가,날짜,사진
+                    Container(
+                      child: Column(
+                        children: [
+                          // 뉴스 제목
+                          Text(
+                            title,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w800),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          // 작가,날짜
+                          Container(
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(author ?? '',
+                                    style:
+                                    const TextStyle(color: Colors.grey)),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(publishedAt,
+                                    style:
+                                    const TextStyle(color: Colors.grey)),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          // 뉴스 사진
+                          Image.network(urlToImage ??
+                              'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                    // 뉴스 본문
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            description ?? '',
+                            style: const TextStyle(
+                                wordSpacing: 1.5, height: 2),
+                          ),
+                          const SizedBox(
+                            height: 35,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  launchUrlString('$url');
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.blue),
+                                child: const Text(
+                                  '내용 더 보기',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -94,6 +158,7 @@ class _NewsHomeState extends State<NewsHome> {
                         context,
                         article.title,
                         article.author,
+                        article.publishedAt,
                         article.urlToImage,
                         article.description,
                         article.url),
@@ -120,10 +185,11 @@ class _NewsHomeState extends State<NewsHome> {
                                   Stack(
                                     children: [
                                       ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child:
-                                            Image.network(article.urlToImage),
-                                      )
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(article
+                                                  .urlToImage ??
+                                              'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'))
                                     ],
                                   ),
                                   const SizedBox(

@@ -1,9 +1,14 @@
 import 'dart:convert';
+import 'package:flutter_naver_news/screens/screen/business/business.dart';
+import 'package:flutter_naver_news/screens/screen/entertainment/entertainment.dart';
+import 'package:flutter_naver_news/screens/screen/health/health.dart';
+import 'package:flutter_naver_news/screens/screen/newshome/newshome.dart';
+import 'package:flutter_naver_news/screens/screen/science/science.dart';
+import 'package:flutter_naver_news/screens/screen/sports/sports.dart';
+import 'package:flutter_naver_news/screens/screen/technology/technology.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_naver_news/screens/screen/newshome_articles/newshome.dart';
-import 'package:flutter_naver_news/screens/screen/business.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -19,12 +24,17 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
-  static List<String> menu = [
-    '뉴스홈', '기업'
-    // , '연예', '건강', '과학', '스포츠', '기술'
-  ];
+  static List<String> menu = ['뉴스홈', '기업', '연예', '건강', '과학', '스포츠', '기술'];
 
-  static List screen = [const NewsHome(), const Business()];
+  static List screen = [
+    const NewsHome(),
+    const Business(),
+    const Entertainment(),
+    const Health(),
+    const Science(),
+    const Sports(),
+    const Technology()
+  ];
 
   @override
   Widget build(BuildContext context) {
