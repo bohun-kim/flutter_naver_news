@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter_naver_news/screens/screen/business/business.dart';
 import 'package:flutter_naver_news/screens/screen/entertainment/entertainment.dart';
 import 'package:flutter_naver_news/screens/screen/health/health.dart';
@@ -6,9 +5,9 @@ import 'package:flutter_naver_news/screens/screen/newshome/newshome.dart';
 import 'package:flutter_naver_news/screens/screen/science/science.dart';
 import 'package:flutter_naver_news/screens/screen/sports/sports.dart';
 import 'package:flutter_naver_news/screens/screen/technology/technology.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_naver_news/search/search.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -42,18 +41,14 @@ class _MainScreenState extends State<MainScreen> {
       length: menu.length,
       child: Scaffold(
           appBar: AppBar(
-            systemOverlayStyle:
-                const SystemUiOverlayStyle(statusBarColor: Colors.white),
+            systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarBrightness: Brightness.light,
+                statusBarColor: Colors.white),
             backgroundColor: Colors.white,
             centerTitle: true,
             title: const Text('오늘의 뉴스'),
             leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.search),
-              )
-            ],
+            actions: const [Search()],
             bottom: TabBar(
               isScrollable: true,
               tabs: List<Widget>.generate(menu.length, (int index) {
@@ -67,8 +62,18 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: const Color(0xFFD6D6D6),
           body: TabBarView(
             children: List.generate(screen.length, (index) {
-              return Container(
-                child: screen[index],
+              return Stack(
+                children: [
+                  Container(
+                    child: screen[index],
+                  ),
+                  Positioned(
+                      child: Container(
+                        height: 70,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 5, color: Colors.orange)),
+                  )),
+                ],
               );
             }),
           )),
