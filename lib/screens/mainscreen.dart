@@ -7,7 +7,6 @@ import 'package:flutter_naver_news/screens/screen/sports/sports.dart';
 import 'package:flutter_naver_news/screens/screen/technology/technology.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_naver_news/search/search.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -17,12 +16,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   static List<String> menu = ['뉴스홈', '기업', '연예', '건강', '과학', '스포츠', '기술'];
 
   static List screen = [
@@ -34,6 +27,8 @@ class _MainScreenState extends State<MainScreen> {
     const Sports(),
     const Technology()
   ];
+
+  var _isToggled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +43,14 @@ class _MainScreenState extends State<MainScreen> {
             centerTitle: true,
             title: const Text('오늘의 뉴스'),
             leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
-            actions: const [Search()],
+            actions: [
+              IconButton(
+                onPressed: () {
+                  setState(() => {_isToggled = !_isToggled});
+                },
+                icon: const Icon(Icons.search),
+              )
+            ],
             bottom: TabBar(
               isScrollable: true,
               tabs: List<Widget>.generate(menu.length, (int index) {
@@ -68,11 +70,14 @@ class _MainScreenState extends State<MainScreen> {
                     child: screen[index],
                   ),
                   Positioned(
-                      child: Container(
-                        height: 70,
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 5, color: Colors.orange)),
-                  )),
+                      child: _isToggled
+                          ? Container(
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 5, color: Colors.orange)),
+                            )
+                          : Container()),
                 ],
               );
             }),
