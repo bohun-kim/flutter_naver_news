@@ -29,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   var _isToggled = false;
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +73,22 @@ class _MainScreenState extends State<MainScreen> {
                   Positioned(
                       child: _isToggled
                           ? Container(
-                              height: 70,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 5, color: Colors.orange)),
-                            )
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border:
+                            Border.all(width: 1, color: Colors.grey)),
+                        child: TextField(
+                          controller: searchController,
+                          autofocus: true,
+                          decoration:  InputDecoration(
+                              suffixIcon: IconButton(onPressed: () {
+                                print(searchController.text);
+                              }, icon: Icon(Icons.remove)),
+                              border: InputBorder.none,
+                              hintText: '검색어를 입력하세요',
+                              contentPadding: EdgeInsets.all(15)),
+                        ),
+                      )
                           : Container()),
                 ],
               );
