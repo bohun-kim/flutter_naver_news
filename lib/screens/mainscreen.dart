@@ -7,6 +7,7 @@ import 'package:flutter_naver_news/screens/screen/sports/sports.dart';
 import 'package:flutter_naver_news/screens/screen/technology/technology.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_naver_news/screens/search/search.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -30,6 +31,15 @@ class _MainScreenState extends State<MainScreen> {
 
   var _isToggled = false;
   TextEditingController searchController = TextEditingController();
+
+  void searchValue(value) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SearchPage(
+                  SearchData: value,
+                )));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,22 +83,23 @@ class _MainScreenState extends State<MainScreen> {
                   Positioned(
                       child: _isToggled
                           ? Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border:
-                            Border.all(width: 1, color: Colors.grey)),
-                        child: TextField(
-                          controller: searchController,
-                          autofocus: true,
-                          decoration:  InputDecoration(
-                              suffixIcon: IconButton(onPressed: () {
-                                print(searchController.text);
-                              }, icon: Icon(Icons.remove)),
-                              border: InputBorder.none,
-                              hintText: '검색어를 입력하세요',
-                              contentPadding: EdgeInsets.all(15)),
-                        ),
-                      )
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(width: 1, color: Colors.grey)),
+                              child: TextField(
+                                controller: searchController,
+                                autofocus: true,
+                                textInputAction: TextInputAction.go,
+                                onSubmitted: (value) {
+                                  return searchValue(value);
+                                },
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: '검색어를 입력하세요',
+                                    contentPadding: EdgeInsets.all(15)),
+                              ),
+                            )
                           : Container()),
                 ],
               );
