@@ -51,73 +51,69 @@ class _BusinessState extends State<Business> {
                 child: Column(
                   children: [
                     //뉴스 제목,작가,날짜,사진
-                    Container(
-                      child: Column(
-                        children: [
-                          // 뉴스 제목
-                          Text(
-                            title,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w800),
+                    Column(
+                      children: [
+                        // 뉴스 제목
+                        Text(
+                          title,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w800),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        // 작가,날짜
+                        SizedBox(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(author ?? '',
+                                  style: const TextStyle(color: Colors.grey)),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(publishedAt,
+                                  style: const TextStyle(color: Colors.grey)),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          // 작가,날짜
-                          Container(
-                            width: double.infinity,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(author ?? '',
-                                    style: const TextStyle(color: Colors.grey)),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(publishedAt,
-                                    style: const TextStyle(color: Colors.grey)),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          // 뉴스 사진
-                          Image.network(urlToImage ??
-                              'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        // 뉴스 사진
+                        Image.network(urlToImage ??
+                            'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     ),
                     // 뉴스 본문
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            description ?? '',
-                            style: const TextStyle(wordSpacing: 1.5, height: 2),
-                          ),
-                          const SizedBox(
-                            height: 35,
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                                onPressed: () async {
-                                  launchUrlString('$url');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue),
-                                child: const Text(
-                                  '내용 더 보기',
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          )
-                        ],
-                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          description ?? '',
+                          style: const TextStyle(wordSpacing: 1.5, height: 2),
+                        ),
+                        const SizedBox(
+                          height: 35,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                launchUrlString('$url');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue),
+                              child: const Text(
+                                '내용 더 보기',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        )
+                      ],
                     )
                   ],
                 ),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_news/screens/search/search_articles.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +31,7 @@ class _SearchPageState extends State<SearchPage> {
 
     for (var jsonArticle in jsonArray) {
       SearchArticles newsHomeArticles = SearchArticles(
-          originallink: jsonArray['originallink'],
+          originallink: jsonArray[0]['originallink'],
           title: jsonArray[0]['title'],
           link: jsonArray[0]['link'],
           pubDate: jsonArray[0]['pubDate'],
@@ -40,7 +39,6 @@ class _SearchPageState extends State<SearchPage> {
 
       newsArticle.add(newsHomeArticles);
     }
-
     return newsArticle;
   }
 
@@ -54,11 +52,30 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('검색'),
-        centerTitle: true,
-      ),
-      body: Center(child: Text('hi')),
-    );
+        appBar: AppBar(
+          title: const Text('검색'),
+          centerTitle: true,
+        ),
+        body: Container(
+            child: FutureBuilder<List<dynamic>>(
+                future: getAllArticles(),
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    List<dynamic> newsArticles = snapshot.data!;
+                    return ListView(
+                      children: [
+                        GestureDetector(
+                            onTap: () => print(newsArticles),
+                            child: Card(
+                              child: ListTile(title: Text('hi')),
+                            ))
+                      ],
+                    );
+                  }
+                })));
   }
 }
