@@ -2,7 +2,7 @@ class SearchArticles {
   final String title;
   final dynamic originallink;
   final String link;
-  final String? description;
+  final String description;
   final String? pubDate;
 
   SearchArticles(

@@ -36,6 +36,7 @@ class _BusinessState extends State<Business> {
 
       newsArticle.add(newsHomeArticles);
     }
+
     return newsArticle;
   }
 
@@ -182,7 +183,7 @@ class _BusinessState extends State<Business> {
                                               BorderRadius.circular(10),
                                           child: Image.network(article
                                                   .urlToImage ??
-                                              'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'))
+                                              '사진이 없습니다.'))
                                     ],
                                   ),
                                   const SizedBox(

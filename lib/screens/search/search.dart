@@ -17,7 +17,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<List<dynamic>> getAllArticles() async {
     var url =
-        'https://openapi.naver.com/v1/search/news.json?query=$keyword&sort=sim';
+        'https://openapi.naver.com/v1/search/news.json?query=$keyword&display=20';
 
     var response = await http.get(Uri.parse(url), headers: {
       "X-Naver-Client-id": "eiPQaGGNRu1gByikwLGx",
@@ -31,16 +31,24 @@ class _SearchPageState extends State<SearchPage> {
 
     for (var jsonArticle in jsonArray) {
       SearchArticles newsHomeArticles = SearchArticles(
-          originallink: jsonArray[0]['originallink'],
-          title: jsonArray[0]['title'],
-          link: jsonArray[0]['link'],
-          pubDate: jsonArray[0]['pubDate'],
-          description: jsonArray[0]['description']);
+          originallink: jsonArticle['originallink'],
+          title: jsonArticle['title'],
+          link: jsonArticle['link'],
+          pubDate: jsonArticle['pubDate'],
+          description: jsonArticle['description']);
 
       newsArticle.add(newsHomeArticles);
+      print(jsonArticle);
     }
+
     return newsArticle;
   }
+
+  // showSearchList(context, title, description, pubDate, originallink, link) {
+  //   return Card(
+  //     child: ListTile(title: Text(title)),
+  //   );
+  // }
 
   @override
   void initState() {
@@ -66,14 +74,25 @@ class _SearchPageState extends State<SearchPage> {
                     );
                   } else {
                     List<dynamic> newsArticles = snapshot.data!;
-                    return ListView(
-                      children: [
-                        GestureDetector(
-                            onTap: () => print(newsArticles),
-                            child: Card(
-                              child: ListTile(title: Text('hi')),
-                            ))
-                      ],
+                    return ListView.builder(
+                      itemCount: newsArticles.length,
+                      itemBuilder: (context, index) {
+                        SearchArticles article = newsArticles[index];
+                        return GestureDetector(
+                          // onTap: () => showSearchList(
+                          //     context,
+                          //     article.title,
+                          //     article.description,
+                          //     article.pubDate,
+                          //     article.originallink,
+                          //     article.link),
+                          onTap: ()=> print(article.title),
+                        child: Card(
+                          child: ListTile(title: Text(article.description)),
+                        ),
+                        );
+                      },
+
                     );
                   }
                 })));
