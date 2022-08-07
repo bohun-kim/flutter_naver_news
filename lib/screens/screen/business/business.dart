@@ -181,9 +181,9 @@ class _BusinessState extends State<Business> {
                                       ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          child: Image.network(article
-                                                  .urlToImage ??
-                                              '사진이 없습니다.'))
+                                          child: Image.network(
+                                              article.urlToImage ??
+                                                  '사진이 없습니다.'))
                                     ],
                                   ),
                                   const SizedBox(

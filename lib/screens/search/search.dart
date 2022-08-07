@@ -2,22 +2,24 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_news/screens/search/search_articles.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher_string.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key, required this.SearchData}) : super(key: key);
+  const SearchPage({Key? key, required this.searchData}) : super(key: key);
 
-  final SearchData;
+  final searchData;
 
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late dynamic keyword = widget.SearchData;
+  late dynamic keyword = widget.searchData;
 
+  // 키워드로 검색 시 네이버 뉴스 get 요청
   Future<List<dynamic>> getAllArticles() async {
     var url =
-        'https://openapi.naver.com/v1/search/news.json?query=$keyword&display=20';
+        'https://openapi.naver.com/v1/search/news.json?query=$keyword&display=100';
 
     var response = await http.get(Uri.parse(url), headers: {
       "X-Naver-Client-id": "eiPQaGGNRu1gByikwLGx",
@@ -38,17 +40,10 @@ class _SearchPageState extends State<SearchPage> {
           description: jsonArticle['description']);
 
       newsArticle.add(newsHomeArticles);
-      print(jsonArticle);
     }
 
     return newsArticle;
   }
-
-  // showSearchList(context, title, description, pubDate, originallink, link) {
-  //   return Card(
-  //     child: ListTile(title: Text(title)),
-  //   );
-  // }
 
   @override
   void initState() {
@@ -63,38 +58,49 @@ class _SearchPageState extends State<SearchPage> {
         appBar: AppBar(
           title: const Text('검색'),
           centerTitle: true,
+          backgroundColor: const Color(0xFFD6D6D6),
+          elevation: 0,
         ),
-        body: Container(
-            child: FutureBuilder<List<dynamic>>(
-                future: getAllArticles(),
-                builder: (context, snapshot) {
-                  if (snapshot.data == null) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    List<dynamic> newsArticles = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: newsArticles.length,
-                      itemBuilder: (context, index) {
-                        SearchArticles article = newsArticles[index];
-                        return GestureDetector(
-                          // onTap: () => showSearchList(
-                          //     context,
-                          //     article.title,
-                          //     article.description,
-                          //     article.pubDate,
-                          //     article.originallink,
-                          //     article.link),
-                          onTap: ()=> print(article.title),
-                        child: Card(
-                          child: ListTile(title: Text(article.description)),
-                        ),
-                        );
+        body: FutureBuilder<List<dynamic>>(
+            future: getAllArticles(),
+            builder: (context, snapshot) {
+              if (snapshot.data == null) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                List<dynamic> newsArticles = snapshot.data!;
+                return ListView.builder(
+                  itemCount: newsArticles.length,
+                  itemBuilder: (context, index) {
+                    SearchArticles article = newsArticles[index];
+                    return GestureDetector(
+                      onTap: () async {
+                        launchUrlString(article.link);
                       },
-
+                      child: Container(
+                        padding: const EdgeInsets.all(3),
+                        child: Card(
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(8),
+                            title: Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: Text(article.title
+                                  .replaceAll('<b>$keyword</b>', '$keyword')
+                                  .replaceAll('&quot;', '')
+                                  .replaceAll('&apos;', '')),
+                            ),
+                            subtitle: Text(article.description
+                                .replaceAll('<b>$keyword</b>', '$keyword')
+                                .replaceAll('&quot;', '')
+                                .replaceAll('&apos;', '')),
+                          ),
+                        ),
+                      ),
                     );
-                  }
-                })));
+                  },
+                );
+              }
+            }));
   }
 }

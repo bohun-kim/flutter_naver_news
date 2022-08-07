@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_news/screens/screen/newshome/failure.dart';
 import 'package:flutter_naver_news/screens/screen/newshome/newshome_articles.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher_string.dart';
@@ -17,10 +19,10 @@ class _NewsHomeState extends State<NewsHome> {
     const url =
         'https://newsapi.org/v2/top-headlines?country=kr&apiKey=74ad5f4d1a52466cbdbc4486848e5a36';
 
-    var response = await http.get(Uri.parse(url));
-    var jsonData = response.body;
-    var parsingData = json.decode(jsonData);
-    var jsonArray = parsingData['articles'];
+    final response = await http.get(Uri.parse(url));
+    final jsonData = response.body;
+    final parsingData = json.decode(jsonData);
+    final jsonArray = parsingData['articles'];
 
     List<NewsHomeArticles> newsArticle = [];
 
@@ -51,76 +53,69 @@ class _NewsHomeState extends State<NewsHome> {
                 child: Column(
                   children: [
                     //뉴스 제목,작가,날짜,사진
-                    Container(
-                      child: Column(
-                        children: [
-                          // 뉴스 제목
-                          Text(
-                            title,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w800),
+                    Column(
+                      children: [
+                        // 뉴스 제목
+                        Text(
+                          title,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w800),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        // 작가,날짜
+                        Container(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(author ?? '',
+                                  style: const TextStyle(color: Colors.grey)),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(publishedAt,
+                                  style: const TextStyle(color: Colors.grey)),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          // 작가,날짜
-                          Container(
-                            width: double.infinity,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(author ?? '',
-                                    style:
-                                    const TextStyle(color: Colors.grey)),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(publishedAt,
-                                    style:
-                                    const TextStyle(color: Colors.grey)),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          // 뉴스 사진
-                          Image.network(urlToImage ??
-                              'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        // 뉴스 사진
+                        Image.network(urlToImage ??
+                            'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     ),
                     // 뉴스 본문
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            description ?? '',
-                            style: const TextStyle(
-                                wordSpacing: 1.5, height: 2),
-                          ),
-                          const SizedBox(
-                            height: 35,
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                                onPressed: () async {
-                                  launchUrlString('$url');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue),
-                                child: const Text(
-                                  '내용 더 보기',
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          )
-                        ],
-                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          description ?? '',
+                          style: const TextStyle(wordSpacing: 1.5, height: 2),
+                        ),
+                        const SizedBox(
+                          height: 35,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                launchUrlString('$url');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue),
+                              child: const Text(
+                                '내용 더 보기',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        )
+                      ],
                     )
                   ],
                 ),

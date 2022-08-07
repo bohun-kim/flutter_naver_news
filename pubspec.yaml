@@ -40,6 +40,7 @@ dependencies:
   dio: ^4.0.6
   url_launcher: ^6.1.5
   appbar_textfield: ^1.0.1+1
+  rflutter_alert: ^2.0.4
 
 dev_dependencies:
   flutter_test:

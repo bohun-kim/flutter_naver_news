@@ -37,7 +37,7 @@ class _MainScreenState extends State<MainScreen> {
         context,
         MaterialPageRoute(
             builder: (context) => SearchPage(
-                  SearchData: value,
+                  searchData: value,
                 )));
   }
 
@@ -48,12 +48,12 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
           appBar: AppBar(
             systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarIconBrightness: Brightness.dark,
                 statusBarBrightness: Brightness.light,
                 statusBarColor: Colors.white),
             backgroundColor: Colors.white,
             centerTitle: true,
-            title: const Text('오늘의 뉴스'),
-            leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+            title: const Text('스낵뉴스'),
             actions: [
               IconButton(
                 onPressed: () {
@@ -86,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   border:
-                                      Border.all(width: 1, color: Colors.grey)),
+                                      Border.all(width: 0, color: Colors.grey)),
                               child: TextField(
                                 controller: searchController,
                                 autofocus: true,
