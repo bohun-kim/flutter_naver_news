@@ -155,7 +155,7 @@ class _NewsHomeState extends State<NewsHome> {
                         article.author,
                         article.publishedAt,
                         article.urlToImage,
-                        article.description,
+                        article.description?.replaceAll('&quot;', ''),
                         article.url),
                     // 기사 하나의 컨테이너
                     child: Container(
