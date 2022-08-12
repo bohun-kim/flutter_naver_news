@@ -8,4 +8,5 @@
 
 ![](https://velog.velcdn.com/images/ant0410/post/63d07547-1b52-4279-8eb9-4a51f1da8c8f/image.gif)
 
-[앱 구경하기](https://project-goc.netlify.app/)
+[앱 구경하기](![](https://velog.velcdn.com/images/ant0410/post/1cbf59bc-f9b8-4ba7-84b9-295f0fd1fe9c/image.apk)
+)
