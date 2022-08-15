@@ -20,6 +20,8 @@
 - API 를 활용한 정보제공
 - Flutter 위젯을 이용한 화면구성
 
+<br>
+
 ## 🧰 사용기술
 
 - Flutter, dart
@@ -28,9 +30,13 @@
 - http
 - url_launcher
 
+<br>
+
 ## 📅 소요기간
 
 - 1일
+
+<br>
 
 ## 👀 주요기능 & 부분 코드
 
