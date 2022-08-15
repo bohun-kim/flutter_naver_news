@@ -71,8 +71,6 @@
 ### 📂 lib>screens>newshome.dart
 
 1. 뉴스 api 불러오기
-   
-<br>
 
 먼저 http 라이브러리를 이용하여 api 데이터를 불러온 후 dart의 convert에 내장되어있는 json.decode() 를 이용하여 json 데이터를 파싱합니다.
 
