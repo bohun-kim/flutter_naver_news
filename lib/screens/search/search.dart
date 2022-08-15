@@ -4,16 +4,16 @@ import 'package:flutter_naver_news/screens/search/search_articles.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher_string.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key, required this.searchData}) : super(key: key);
+class Search extends StatefulWidget {
+  const Search({Key? key, required this.searchData}) : super(key: key);
 
   final searchData;
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<Search> createState() => _SearchState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchState extends State<Search> {
   late dynamic keyword = widget.searchData;
 
   // 키워드로 검색 시 네이버 뉴스 get 요청

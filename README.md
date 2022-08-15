@@ -27,7 +27,7 @@
 - 네이버 뉴스 API (네이버 검색결과)
 - http
 - url_launcher
- 
+
 ## 📅 소요기간
 
 - 2일
@@ -70,17 +70,19 @@
 
 ### 📂 lib>screens>newshome.dart
 
-1. 뉴스 api 불러오기
+#### 1. 뉴스 api 불러오기
 
 먼저 http 라이브러리를 이용하여 api 데이터를 불러온 후 dart의 convert에 내장되어있는 json.decode() 를 이용하여 json 데이터를 파싱합니다.
 
-그 후 for 반복문을 이용하여 api 데이터중 원하는 데이터를 미리 만들어둔 NewsHomeArticles 클래스 멤버변수에 저장하고, 저장된 변수들을 다시 newsArticle 배열에 저장합니다.
+그 후 for 반복문을 이용하여 api 데이터중 원하는 데이터를 미리 만들어둔 NewsHomeArticles 클래스 멤버변수에 저장하고, 저장된 변수들을 다시 newsArticle
+배열에 저장합니다.
 
 그리고 newsArticle 배열을 return 시킵니다.
 
 <br>
 
 ```
+// 네트워크 불러오기
 Future<List<dynamic>> getAllArticles() async {
     const url =
         'https://newsapi.org/v2/top-headlines?country=kr&apiKey=Bo-hoon apikey';
@@ -106,4 +108,145 @@ Future<List<dynamic>> getAllArticles() async {
     }
     return newsArticle;
   }
+```
+
+<br>
+
+### 📂 lib>search>search.dart
+
+#### 2. 네이버 뉴스 api 를 활요한 검색창 구현
+
+<br>
+
+> Naver Open API를 통하여 검색 결과를 가져옵니다.
+
+<br>
+
+![](https://velog.velcdn.com/images/ant0410/post/9071acc3-3d56-491c-8f6f-ac6bbdab6dfb/image.gif)
+
+
+2-1) 검색버튼 구현
+
+먼저 mainscreen.dart 의 appBar 에서 action 위젯을 이용하여 버튼을 만들어준 후 버튼을 누르면
+_isToggled 변수의 값이 true,false 로 변경되는 토글 스위치를 만들어줍니다.
+
+```
+var _isToggled = false;
+
+AppBar(
+  actions: [
+   IconButton(
+     onPressed: () {
+       setState(() => {_isToggled = !_isToggled});
+     },
+     icon: const Icon(Icons.search),
+   )
+ ],  
+)         
+```
+<br/>
+
+2-2) 검색버튼 클릭 시 검색창 구현
+
+삼항연산자를 통해 버튼 클릭시 _isToggled 가 false 일 때와 true 일 때 별로 화면을 만들어주고, searchValue 함수 인자값으로 텍스트 필드값을 넣어줍니다.
+
+이 때 텍스트필드 확인버튼 클릭시 searchValue 함수는 Search 위젯 페이지로 텍스트필드 값과 함께 넘어갑니다.
+
+```
+// 편집가능한 TextField 생성
+TextEditingController searchController = TextEditingController();
+
+// Search 페이지로 넘어가는 함수
+void searchValue(value) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Search(
+                  searchData: value,
+                )));
+  }
+
+Scaffold(
+Positioned(
+  child: _isToggled
+    ? Container(
+       decoration: 
+       BoxDecoration(
+          color: Colors.white,
+          border: Border.all(width: 0, color: Colors.grey)),
+          child: TextField(
+             controller: searchController,
+             autofocus: true,
+             textInputAction: TextInputAction.go,
+             // 텍스트필드 값을 searchValue 함수 인자값으로 넣어준다.
+             onSubmitted: (value) {
+                 return searchValue(value);
+               },
+             decoration: const InputDecoration(
+                 border: InputBorder.none,
+                 hintText: '검색어를 입력하세요',
+                 contentPadding: EdgeInsets.all(15)),
+               ),
+             )
+    : Container())  
+)
+```
+
+<br/>
+
+2-3) Search 페이지 화면 구성하기
+
+넘어온 텍스트필드 값은 searchData 멤버변수 값에 저장되고, 네이버 api 를 통해 데이터를 불러옵니다. 이 때 keyword 변수에 텍스트필드 값을 저장해준 뒤 네이버 api query 부분에 keyword 변수를 넣어주면 검색 keyword 와 연관된 검색결과가 나옵니다.
+
+```
+
+class Search extends StatefulWidget {
+  const Search({Key? key, required this.searchData}) : super(key: key);
+
+  final searchData;
+
+  @override
+  State<Search> createState() => _SearchState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+ late dynamic keyword = widget.searchData;
+
+ // 키워드로 검색 시 네이버 뉴스 get 요청
+  Future<List<dynamic>> getAllArticles() async {
+    var url =
+        'https://openapi.naver.com/v1/search/news.json?query=$keyword&display=100';
+
+    var response = await http.get(Uri.parse(url), headers: {
+      "X-Naver-Client-id": "Naver-id",
+      "X-Naver-Client-Secret": "Naver-secret"
+    });
+    var jsonData = response.body;
+    var parsingData = json.decode(jsonData);
+    var jsonArray = parsingData['items'];
+
+    List<SearchArticles> newsArticle = [];
+
+    for (var jsonArticle in jsonArray) {
+      SearchArticles newsHomeArticles = SearchArticles(
+          originallink: jsonArticle['originallink'],
+          title: jsonArticle['title'],
+          link: jsonArticle['link'],
+          pubDate: jsonArticle['pubDate'],
+          description: jsonArticle['description']);
+
+      newsArticle.add(newsHomeArticles);
+   }
+
+     return newsArticle;
+   }
+   
+   '
+   '
+   '
+  
+   Widget build(BuildContext context) {
+     return Scaffold()
+   }
+ }
 ```
