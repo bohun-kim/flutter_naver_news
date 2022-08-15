@@ -93,7 +93,9 @@ class _SearchPageState extends State<SearchPage> {
                             subtitle: Text(article.description
                                 .replaceAll('<b>$keyword</b>', '$keyword')
                                 .replaceAll('&quot;', '')
-                                .replaceAll('&apos;', '')),
+                                .replaceAll('&apos;', '')
+                                .replaceAll('lt;', '')
+                                .replaceAll('gt;', '')),
                           ),
                         ),
                       ),
