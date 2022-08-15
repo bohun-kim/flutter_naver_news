@@ -68,4 +68,44 @@
 
 <br>
 
-### 📂 server>Router>KoreaAllRoute.js
+### 📂 lib>screens>newshome.dart
+
+1. 뉴스 api 불러오기
+   
+<br>
+
+먼저 http 라이브러리를 이용하여 api 데이터를 불러온 후 dart의 convert에 내장되어있는 json.decode() 를 이용하여 json 데이터를 파싱합니다.
+
+그 후 for 반복문을 이용하여 api 데이터중 원하는 데이터를 미리 만들어둔 NewsHomeArticles 클래스 멤버변수에 저장하고, 저장된 변수들을 다시 newsArticle 배열에 저장합니다.
+
+그리고 newsArticle 배열을 return 시킵니다.
+
+<br>
+
+```
+Future<List<dynamic>> getAllArticles() async {
+    const url =
+        'https://newsapi.org/v2/top-headlines?country=kr&apiKey=Bo-hoon apikey';
+
+    final response = await http.get(Uri.parse(url));
+    final jsonData = response.body;
+    final parsingData = json.decode(jsonData);
+    final jsonArray = parsingData['articles'];
+
+    List<NewsHomeArticles> newsArticle = [];
+
+    for (var jsonArticle in jsonArray) {
+      NewsHomeArticles newsHomeArticles = NewsHomeArticles(
+        title: jsonArticle['title'],
+        author: jsonArticle['author'],
+        publishedAt: jsonArticle['publishedAt'],
+        urlToImage: jsonArticle['urlToImage'],
+        url: jsonArticle['url'],
+        description: jsonArticle['description'],
+      );
+
+      newsArticle.add(newsHomeArticles);
+    }
+    return newsArticle;
+  }
+```
