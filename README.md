@@ -112,9 +112,9 @@ Future<List<dynamic>> getAllArticles() async {
 
 <br>
 
-### 📂 lib>search>search.dart
+## 2. 네이버 뉴스 api 를 활요한 검색창 구현
 
-#### 2. 네이버 뉴스 api 를 활요한 검색창 구현
+### 💻 코드살펴보기 (검색기능 구현)
 
 <br>
 
@@ -124,6 +124,7 @@ Future<List<dynamic>> getAllArticles() async {
 
 ![](https://velog.velcdn.com/images/ant0410/post/9071acc3-3d56-491c-8f6f-ac6bbdab6dfb/image.gif)
 
+### 📂 lib>search>search.dart
 
 2-1) 검색버튼 구현
 
