@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  setState(() => {_isToggled = !_isToggled});
+                  setState(() {_isToggled = !_isToggled;});
                 },
                 icon: const Icon(Icons.search),
               )

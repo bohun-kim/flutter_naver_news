@@ -84,7 +84,7 @@ class _BusinessState extends State<Business> {
                         ),
                         // 뉴스 사진
                         Image.network(urlToImage ??
-                            'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'),
+                            'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/3/no_image.gif'),
                         const SizedBox(
                           height: 10,
                         ),
@@ -95,7 +95,7 @@ class _BusinessState extends State<Business> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          description ?? '',
+                          description ?? '내용을 보시려면 내용 더 보기를 눌러보세요',
                           style: const TextStyle(wordSpacing: 1.5, height: 2),
                         ),
                         const SizedBox(
@@ -176,15 +176,17 @@ class _BusinessState extends State<Business> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // 기사 사진
-                                  Stack(
-                                    children: [
-                                      ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.network(
-                                              article.urlToImage ??
-                                                  '사진이 없습니다.'))
-                                    ],
+                                  Center(
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: Image.network(
+                                                article.urlToImage ??
+                                                    'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/3/no_image.gif'))
+                                      ],
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 10,
