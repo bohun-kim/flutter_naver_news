@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_news/screens/screen/business/business_articles.dart';
-import 'package:flutter_naver_news/screens/screen/sports/sports_articles.dart';
 import 'package:flutter_naver_news/screens/screen/technology/technology_articles.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher_string.dart';
@@ -53,73 +51,69 @@ class _TechnologyState extends State<Technology> {
                 child: Column(
                   children: [
                     //뉴스 제목,작가,날짜,사진
-                    Container(
-                      child: Column(
-                        children: [
-                          // 뉴스 제목
-                          Text(
-                            title,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w800),
+                    Column(
+                      children: [
+                        // 뉴스 제목
+                        Text(
+                          title,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w800),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        // 작가,날짜
+                        SizedBox(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(author ?? '',
+                                  style: const TextStyle(color: Colors.grey)),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(publishedAt,
+                                  style: const TextStyle(color: Colors.grey)),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          // 작가,날짜
-                          Container(
-                            width: double.infinity,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(author ?? '',
-                                    style: const TextStyle(color: Colors.grey)),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(publishedAt,
-                                    style: const TextStyle(color: Colors.grey)),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          // 뉴스 사진
-                          Image.network(urlToImage ??
-                              'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        // 뉴스 사진
+                        Image.network(urlToImage ??
+                            'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/3/no_image.gif'),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     ),
                     // 뉴스 본문
-                    Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            description ?? '',
-                            style: const TextStyle(wordSpacing: 1.5, height: 2),
-                          ),
-                          const SizedBox(
-                            height: 35,
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                                onPressed: () async {
-                                  launchUrlString('$url');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue),
-                                child: const Text(
-                                  '내용 더 보기',
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          )
-                        ],
-                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          description ?? '내용을 보시려면 내용 더 보기를 눌러보세요',
+                          style: const TextStyle(wordSpacing: 1.5, height: 2),
+                        ),
+                        const SizedBox(
+                          height: 35,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                launchUrlString('$url');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue),
+                              child: const Text(
+                                '내용 더 보기',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        )
+                      ],
                     )
                   ],
                 ),
@@ -188,7 +182,7 @@ class _TechnologyState extends State<Technology> {
                                               BorderRadius.circular(10),
                                           child: Image.network(article
                                                   .urlToImage ??
-                                              'https://ygx.co.kr/wp/wp-content/themes/ygx-190327/resources/imgs/p-ygxa@2x.png'))
+                                              'https://web.yonsei.ac.kr/_ezaid/board/_skin/albumRecent/3/no_image.gif'))
                                     ],
                                   ),
                                   const SizedBox(
