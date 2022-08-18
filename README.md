@@ -10,8 +10,7 @@
 
 [앱 다운받기](https://velog.velcdn.com/images/ant0410/post/318ac855-7655-4184-899c-18bdbc646c8f/image.apk "download")
 
-![title](https://velog.velcdn.com/images/ant0410/post/e0cf0928-b371-40cb-88db-54980b010ff1/image.png)
-
+<img src="https://velog.velcdn.com/images/ant0410/post/e0cf0928-b371-40cb-88db-54980b010ff1/image.png"  width="130" height="130"/>
 
 <br>
 
