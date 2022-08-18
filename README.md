@@ -8,8 +8,7 @@
 
 ![](https://velog.velcdn.com/images/ant0410/post/63d07547-1b52-4279-8eb9-4a51f1da8c8f/image.gif)
 
-[앱 구경하기](![](https://velog.velcdn.com/images/ant0410/post/1cbf59bc-f9b8-4ba7-84b9-295f0fd1fe9c/image.apk)
-)
+[앱 구경하기](https://velog.velcdn.com/images/ant0410/post/318ac855-7655-4184-899c-18bdbc646c8f/image.apk)
 
 <br>
 
@@ -150,6 +149,7 @@ AppBar(
  ],  
 )         
 ```
+
 <br/>
 
 2-2) 검색버튼 클릭 시 검색창 구현
@@ -204,7 +204,8 @@ Positioned(
 
 2-3) Search 페이지 화면 구성하기
 
-넘어온 텍스트필드 값은 searchData 멤버변수 값에 저장되고, 네이버 api 를 통해 데이터를 불러옵니다. 이 때 keyword 변수에 텍스트필드 값을 저장해준 뒤 네이버 api query 부분에 keyword 변수를 넣어주면 검색 keyword 와 연관된 검색결과가 나옵니다.
+넘어온 텍스트필드 값은 searchData 멤버변수 값에 저장되고, 네이버 api 를 통해 데이터를 불러옵니다. 이 때 keyword 변수에 텍스트필드 값을 저장해준 뒤 네이버
+api query 부분에 keyword 변수를 넣어주면 검색 keyword 와 연관된 검색결과가 나옵니다.
 
 ```
 
@@ -266,6 +267,6 @@ class _SearchPageState extends State<SearchPage> {
 > 플러터 학습 이후 스스로 처음 만들어본 앱이였다.
 >
 > 직접 프로젝트를 진행해보면서 API 데이터 가공법, 라이브러리 사용을 해보며 막연한 두려움을 없앨 수 있었고 Flutter 화면 구성을 위한 검색을 통한 여러가지 위젯 사용, 공공데이터 API 사용법까지 해보며 전체적인 흐름을 이해하는데 많은 도움이 됐다.
-> 
+>
 > 추후 프로젝트를 진행한다면 현재 코드들이 복잡하다고 느껴 GetX 를 사용해보고싶고, 눈에 뚜렷이 보이는 데이터 시각화를 도입해보고 싶다.
 
